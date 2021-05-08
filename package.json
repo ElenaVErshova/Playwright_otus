@@ -1,0 +1,31 @@
+{
+  "name": "Playwright_otus",
+  "version": "1.0.0",
+  "description": "UI tests",
+  "main": "ok.spec.js",
+  "scripts": {
+    "test": "mocha *.spec.js -timeout 50000 --require @babel/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElenaVErshova/Playwright_otus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElenaVErshova/Playwright_otus/issues"
+  },
+  "homepage": "https://github.com/ElenaVErshova/Playwright_otus#readme",
+  "dependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.14.0",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.14.1",
+    "@babel/register": "^7.13.16",
+    "babel": "^6.23.0",
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0",
+    "playwright": "^1.10.0"
+  }
+}
