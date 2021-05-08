@@ -24,4 +24,4 @@ async function stopChrome() {
     await chrome.close();
 }
 
-export { chrome, context, page };
+export { runChrome, gotoUrl, stopChrome };

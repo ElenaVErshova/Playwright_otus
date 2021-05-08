@@ -1,8 +1,8 @@
 import { chai } from 'chai';
-import { runChrome, stop, gotoUrl } from './framework/lib/browser';
+import { runChrome, stopChrome, gotoUrl } from './framework/lib/browser';
 import { urls } from './framework/const/urls'
 
-const { expect } = chai;
+//const { expect } = chai;
 
 describe('Тесты одноклассников', () => {
     let page;
@@ -13,7 +13,7 @@ describe('Тесты одноклассников', () => {
     })
 
     afterEach(async () => {
-        await stop();
+        await stopChrome();
     })
 
     it('Проверяем логин', async () => {
