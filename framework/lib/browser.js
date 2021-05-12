@@ -6,8 +6,8 @@ let page;
 
 async function runChrome() {
     chrome = await playwright.chromium.launch({
-        headless:true,
-        slowMo:250,
+        headless: false,
+        slowMo: 250,
     });
     context = await chrome.newContext();
     page = await context.newPage();
