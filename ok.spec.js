@@ -1,20 +1,10 @@
 import chai from 'chai';
-import { runChrome, stopChrome, gotoUrl } from './framework/lib/browser';
+import { runChrome, stopChrome, gotoUrl } from './lib/browser';
 import { urls } from './framework/const/urls';
-import { doLogin, doLogout } from './framework/controller/authorization';
+import { doLogin, doLogout } from './framework/stepObject/authorization';
+import { app } from './framework/pages/index'
 
 const { expect } = chai;
-
-const fieldLogin = "//*[@id = 'field_email']";
-const userMenuDropdownImg = "//*[contains(@class, 'js-toolbar-menu')]//img";
-const avatar = "//*[contains(@hrefattrs, 'TopCardUserOpenPhoto')]";
-const photolayer = "//*[@id = 'photoLayerScrollingWrapper']"
-const profileName = "//*[@class = 'profile-user-info_name']";
-const postformInFeed = "//*[contains(@hrefattrs, 'PopLayerMediaTopic')]";
-const postformPopup = "//*[@id = 'hook_Block_pfnull']";
-const postformTextarea = "//*[@data-module = 'postingForm/mediaText']";
-const submitPost = "//*[@class = 'posting_footer']//*[@data-action = 'submit']";
-const feedTopicTextblock = "//*[contains(@class, 'media-text_cnt_tx')]";
 
 const USERNAME = 'TestOTUS1';
 const PASSWORD = 'testQA1'
@@ -35,45 +25,31 @@ describe('Тесты одноклассников', () => {
 
     it('Проверяем логин', async () => {
         await doLogin(page, USERNAME, PASSWORD);
-        const name = await page.getAttribute(userMenuDropdownImg, 'alt');
-        console.log(`Получили имя пользователя: ${name}`);
+        const name = await app.UserMainPage().getUsername(page);
         expect(name).to.equal(FULLNAME);
     })
     it('Проверяем разлогин', async () => {
         await doLogin(page, USERNAME, PASSWORD);
         await doLogout(page);
-
-        let isLogin = await page.isVisible(fieldLogin);
-        expect(isLogin).to.be.true;
     })
     it('Проверяем открытие аватарки', async () => {
         await doLogin(page, USERNAME, PASSWORD);
-        await page.click(avatar);
-        await page.waitForSelector(photolayer);
-        let isPhoto = await page.isVisible(photolayer);
-        expect(isPhoto).to.be.true;
+        await app.UserMainPage().openAvatarPhoto(page);
     })
     it('Проверяем переход в свой профиль', async () => {
         await doLogin(page, USERNAME, PASSWORD);
         page = await gotoUrl(`${urls.baseUrl}profile/${ID}`);
-        let name = await page.textContent(profileName);
+        await app.UserOwnPage().check(page);
+        const name = await app.UserOwnPage().getUsername(page);
         expect(name).to.equal(FULLNAME);
     })
     it('Проверяем постинг заметки', async () => {
         await doLogin(page, USERNAME, PASSWORD);
-        await page.click(postformInFeed);
-        await page.waitForSelector(postformPopup);
-
+        await app.UserMainPage().openPostingForm(page);
         let text = `qwerty${Math.random()}`;
-        await page.waitForSelector(postformTextarea);
-        await page.fill(postformTextarea, text);
-        await page.keyboard.press('Enter');
-        await page.waitForSelector(submitPost);
-        await page.click(submitPost);
-
+        await app.PostForm().makeTextTopic(page, text);
         page = await gotoUrl(`${urls.baseUrl}profile/${ID}/statuses`);
-        await page.waitForSelector(feedTopicTextblock);
-        let textActual = await page.textContent(feedTopicTextblock);
+        const textActual = await app.UserTopicsPage().getLatestTopicText(page);
         expect(textActual).to.equal(text);
     })
 })
