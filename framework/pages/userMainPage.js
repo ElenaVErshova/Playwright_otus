@@ -1,7 +1,4 @@
-import chai from 'chai';
-import { app } from '.';
-
-const { expect } = chai;
+import { app } from '../pages/index';
 
 const UserMainPage = function UserMainPage() {
     const userMenuDropdown = "//*[@id = 'hook_Block_ToolbarUserDropdown']/div"
@@ -24,8 +21,6 @@ const UserMainPage = function UserMainPage() {
 
     this.check = async (page) => {
         await page.waitForSelector(userMenuDropdownImg);
-        const isUserDropdown = page.isVisible(userMenuDropdownImg);
-        expect(isUserDropdown).to.be.true;
     }
 
     this.getUsername = async (page) => {

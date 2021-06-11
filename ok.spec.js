@@ -30,11 +30,17 @@ describe('Тесты одноклассников', () => {
     })
     it('Проверяем разлогин', async () => {
         await doLogin(page, USERNAME, PASSWORD);
+        const name = await app.UserMainPage().getUsername(page);
+        expect(name).to.equal(FULLNAME);
         await doLogout(page);
+        const text = await app.LoginPage().getLoginButtonText(page);
+        expect(text).to.equal('Войти в Одноклассники');
     })
     it('Проверяем открытие аватарки', async () => {
         await doLogin(page, USERNAME, PASSWORD);
         await app.UserMainPage().openAvatarPhoto(page);
+        const text = await app.PhotoLayer().getPhotoDescription(page);
+        expect(text).to.equal('Моя крутая аватарка');
     })
     it('Проверяем переход в свой профиль', async () => {
         await doLogin(page, USERNAME, PASSWORD);

@@ -1,14 +1,16 @@
-import chai from 'chai';
-
-const { expect } = chai;
-
 const PhotoLayer = function PhotoLayer() {
     const photolayer = "//*[@id = 'photoLayerScrollingWrapper']";
+    const description = "//*[@id = 'photoLayerScrollingWrapper']//*[@class = 'text-field_text']";
 
     this.check = async (page) => {
         await page.waitForSelector(photolayer);
-        let isPhoto = await page.isVisible(photolayer);
-        expect(isPhoto).to.be.true;
+    }
+
+    this.getPhotoDescription = async (page) => {
+        await page.waitForSelector(description);
+        console.log(await page.isVisible(description))
+        const text = await page.textContent(description);
+        return text;
     }
 }
 

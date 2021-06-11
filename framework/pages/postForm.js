@@ -1,6 +1,3 @@
-import chai from 'chai';
-
-const { expect } = chai;
 
 const PostForm = function PostForm() {
     const postformPopup = "//*[@id = 'hook_Block_pfnull']";
@@ -9,11 +6,7 @@ const PostForm = function PostForm() {
 
     this.check = async (page) => {
         await page.waitForSelector(postformPopup);
-        let isPopupPresent = await page.isVisible(postformPopup);
-        expect(isPopupPresent).to.be.true;
         await page.waitForSelector(postformTextarea);
-        let isTextAreaPresent = await page.isVisible(postformTextarea);
-        expect(isTextAreaPresent).to.be.true;
     }
 
     this.makeTextTopic = async (page, text) => {
